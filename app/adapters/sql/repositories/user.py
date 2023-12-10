@@ -1,7 +1,7 @@
 import abc
-from app.adapters.abstract.repository import AbstractUserRepository
+from app.adapters.abstract.repositories.user import AbstractUserRepository
 from app.adapters.sql.mappings import UserModel
-from app.domain.user import User, UserCreate
+from app.domain.user import User, UserCreate, UserUpdate
 
 
 class SqlAlchemyUserRepository(AbstractUserRepository):
@@ -19,3 +19,9 @@ class SqlAlchemyUserRepository(AbstractUserRepository):
     
     def list(self) -> list[User]:
         return self.session.query(UserModel).all()
+
+    def update(self, id: int, user_update: UserUpdate) -> User:
+        user = self.session.query(UserModel).filter_by(id=id)
+        user.update(user_update.model_dump(exclude_unset=True))
+        self.session.flush()
+        return user.one()

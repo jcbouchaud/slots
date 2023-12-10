@@ -1,5 +1,5 @@
 import abc
-from app.domain.user import User, UserCreate
+from app.domain.user import User, UserCreate, UserUpdate
 
 
 class AbstractUserRepository(abc.ABC):
@@ -13,4 +13,8 @@ class AbstractUserRepository(abc.ABC):
     
     @abc.abstractmethod
     def list(self) -> list[User]:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def update(self, id: int, user_update: UserUpdate) -> User:
         raise NotImplementedError

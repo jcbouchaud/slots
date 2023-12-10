@@ -5,7 +5,7 @@ from app.adapters.sql.unit_of_work import SqlAlchemyUnitOfWork
 from app.adapters.sql import Base
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture()
 def in_memory_sqlite_db():
     engine = create_engine("sqlite:///:memory:")
     Base.metadata.create_all(engine)
@@ -14,11 +14,10 @@ def in_memory_sqlite_db():
     engine.dispose()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture()
 def sqlite_session_factory(in_memory_sqlite_db):
     yield sessionmaker(bind=in_memory_sqlite_db, autoflush=False, autocommit=False)    
         
-
     
 @pytest.fixture()
 def uow(sqlite_session_factory):

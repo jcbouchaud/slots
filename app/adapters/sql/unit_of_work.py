@@ -1,4 +1,4 @@
-from app.adapters.sql.repository import SqlAlchemyUserRepository
+from app.adapters.sql.repositories.user import SqlAlchemyUserRepository
 from app.adapters.sql import SessionLocal
 from app.adapters.abstract.unit_of_work import AbstractUnitOfWork
 from sqlalchemy.orm.session import Session
