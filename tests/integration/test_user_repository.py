@@ -15,7 +15,7 @@ def test_add_user(sqlite_session_factory):
     assert user.email == user_create.email
 
 
-def test_update_spot(sqlite_session_factory):
+def test_update_user(sqlite_session_factory):
     session = sqlite_session_factory()
     repo = SqlAlchemyUserRepository(session)
 
