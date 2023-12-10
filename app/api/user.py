@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.api.dependencies import UnitOfWorkDependency
-from app.domain.user import User, UserCreate
+from app.domain.user import User, UserCreate, UserUpdate
 
 
 router = APIRouter(
@@ -9,8 +9,13 @@ router = APIRouter(
 )
 
 @router.post("", response_model=User)
-async def create_user(data: UserCreate, unit_of_work: UnitOfWorkDependency):
-    return unit_of_work.users.add(user_create=data)
+async def create_user(user_create: UserCreate, unit_of_work: UnitOfWorkDependency):
+    return unit_of_work.users.add(user_create=user_create)
+
+
+@router.put("/{id}", response_model=User)
+async def update_user(id:int, user_update: UserUpdate, unit_of_work: UnitOfWorkDependency):
+    return unit_of_work.users.update(id=id, user_update=user_update)
 
 
 @router.get("/{id}", response_model=User)

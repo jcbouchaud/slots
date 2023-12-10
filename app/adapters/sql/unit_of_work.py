@@ -1,3 +1,4 @@
+from app.adapters.sql.repositories.spot import SqlAlchemySpotRepository
 from app.adapters.sql.repositories.user import SqlAlchemyUserRepository
 from app.adapters.sql import SessionLocal
 from app.adapters.abstract.unit_of_work import AbstractUnitOfWork
@@ -11,6 +12,7 @@ class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
     def __enter__(self):
         self.session = self.session_factory()  # type: Session
         self.users = SqlAlchemyUserRepository(self.session)
+        self.spots = SqlAlchemySpotRepository(self.session)
         return super().__enter__()
 
     def __exit__(self, *args):
