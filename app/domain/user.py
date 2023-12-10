@@ -31,4 +31,4 @@ class UserUpdate(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
     email: EmailStr | None = None
-    favorites_spots: set[str] | None = None
+    favorites_spots: set[int] = set()
