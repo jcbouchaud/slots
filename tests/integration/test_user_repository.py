@@ -37,7 +37,7 @@ def test_get_by_id(sqlite_session_factory):
     user_create = UserCreate(first_name="John", last_name="Doe", email="john@example.com")
     user = repo.add(user_create=user_create)
     
-    assert User.model_validate(user) == User(id=user.id, **user_create.model_dump())
+    assert User.model_validate(user) == User(id=user.id, **user_create.model_dump(exclude_unset=True))
 
 
 def test_list_users(sqlite_session_factory):
