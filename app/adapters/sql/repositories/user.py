@@ -12,16 +12,17 @@ class SqlAlchemyUserRepository(AbstractUserRepository):
         user = UserModel(**user_create.model_dump())
         self.session.add(user)
         self.session.flush()
-        return user
+        return User.model_validate(user)
 
     def get(self, id: int) -> User:
-        return self.session.query(UserModel).filter_by(id=id).one()
+        user = self.session.query(UserModel).filter_by(id=id).one()
+        return User.model_validate(user)
     
     def list(self) -> list[User]:
-        return self.session.query(UserModel).all()
+        return [User.model_validate(user) for user in self.session.query(UserModel).all()]
 
     def update(self, id: int, user_update: UserUpdate) -> User:
         user = self.session.query(UserModel).filter_by(id=id)
         user.update(user_update.model_dump(exclude_unset=True))
         self.session.flush()
-        return user.one()
+        return User.model_validate(user.one())

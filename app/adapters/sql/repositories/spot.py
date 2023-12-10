@@ -12,16 +12,17 @@ class SqlAlchemySpotRepository(AbstractSpotRepository):
         spot = SpotModel(**spot_create.model_dump())
         self.session.add(spot)
         self.session.flush()
-        return spot
+        return Spot.model_validate(spot)
 
     def get(self, id: int) -> Spot:
-        return self.session.query(SpotModel).filter_by(id=id).one()
+        spot = self.session.query(SpotModel).filter_by(id=id).one()
+        return Spot.model_validate(spot)
     
     def list(self) -> list[Spot]:
-        return self.session.query(SpotModel).all()
+        return [Spot.model_validate(spot) for spot in self.session.query(SpotModel).all()]
     
     def update(self, id: int, spot_update: SpotUpdate) -> Spot:
         spot = self.session.query(SpotModel).filter_by(id=id)
         spot.update(spot_update.model_dump(exclude_unset=True))
         self.session.flush()
-        return spot.one()
+        return Spot.model_validate(spot.one())
