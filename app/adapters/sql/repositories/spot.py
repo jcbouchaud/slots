@@ -8,7 +8,7 @@ class SqlAlchemySpotRepository(AbstractSpotRepository):
         self.session = session
         
     def _validate(self, spot_model: SpotModel):
-        return self._validate(spot_model)
+        return Spot.model_validate(spot_model)
 
     def add(self, spot_create: SpotCreate) -> Spot:
         spot = SpotModel(**spot_create.model_dump())

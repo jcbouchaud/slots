@@ -8,7 +8,7 @@ class SqlAlchemyUserRepository(AbstractUserRepository):
         self.session = session
         
     def _validate(self, user_model: UserModel):
-        return self._validate(user_model)
+        return User.model_validate(user_model)
 
     def add(self, user_create: UserCreate) -> User:
         user = UserModel(**user_create.model_dump())

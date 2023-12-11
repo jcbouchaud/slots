@@ -1,10 +1,11 @@
 from sqlalchemy import Column, Index, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from app.adapters.sql import Base
+# from app.adapters.sql.mappings.spot import SpotModel
 
 
 class UserFavoritesSpots(Base):
-    __tablename__ = "users_favorites_spots"
+    __tablename__ = "user_favorites_spots"
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -23,4 +24,4 @@ class UserModel(Base):
     first_name = Column(String)
     last_name = Column(String)
     email = Column(String, unique=True)
-    favorites_spots = relationship("SpotModel", secondary="users_favorites_spots")
+    favorites_spots = relationship("SpotModel", secondary="user_favorites_spots")

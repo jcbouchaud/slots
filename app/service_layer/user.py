@@ -12,8 +12,8 @@ def add_spot_to_favorites(user_id: int, spot_id: int, unit_of_work: AbstractUnit
     if not spot:
         raise SpotDoesNotExist
     
-    user.add_spot_to_favorites(spot_id=spot_id)
-    unit_of_work.users.update(id=user_id, user_update=UserUpdate(favorites_spots=user.favorites_spots))
+    user.add_spot_to_favorites(spot_id=spot.id)
+    unit_of_work.users.update(id=user.id, user_update=UserUpdate(favorites_spots=user.favorites_spots))
     
     return user
     
@@ -25,7 +25,7 @@ def remove_spot_from_favorites(user_id: int, spot_id: int, unit_of_work: Abstrac
     if not spot:
         raise SpotDoesNotExist
     
-    user.remove_spot_from_favorites(spot_id=spot_id)
-    unit_of_work.users.update(id=user_id, user_update=UserUpdate(favorites_spots=user.favorites_spots))
+    user.remove_spot_from_favorites(spot_id=spot.id)
+    unit_of_work.users.update(id=user.id, user_update=UserUpdate(favorites_spots=user.favorites_spots))
     
     return user
