@@ -24,7 +24,12 @@ class SqlAlchemySpotRepository(AbstractSpotRepository):
         return [self._validate(spot) for spot in self.session.query(SpotModel).all()]
     
     def update(self, id: int, spot_update: SpotUpdate) -> Spot:
-        spot = self.session.query(SpotModel).filter_by(id=id)
-        spot.update(spot_update.model_dump(exclude_unset=True))
+        spot = self.session.query(SpotModel).filter_by(id=id).one()
+        update_data = spot_update.model_dump(exclude_unset=True)
+        
+        for key, value in update_data.items():
+            setattr(spot, key, value)
+
+        self.session.add(spot)
         self.session.flush()
-        return self._validate(spot.one())
+        return self._validate(spot)
