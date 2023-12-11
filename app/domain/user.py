@@ -1,5 +1,7 @@
 from pydantic import BaseModel, ConfigDict, EmailStr
 
+from app.domain.spot import Spot
+
 
 class User(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -8,17 +10,21 @@ class User(BaseModel):
     first_name: str
     last_name: str
     email: EmailStr
-    favorites_spots: set[int] = set()
+    favorites_spots: list[Spot] = []
     
-    def add_spot_to_favorites(self, spot_id: int):
-        self.favorites_spots = self.favorites_spots or set()
-        self.favorites_spots.add(spot_id)
+    def add_spot_to_favorites(self, spot: Spot):
+        self.favorites_spots = self.favorites_spots or list()
+        if not self._is_favorite_spot(spot=spot):
+            self.favorites_spots.append(spot)
         return self
 
-    def remove_spot_from_favorites(self, spot_id: int):
-        if spot_id in self.favorites_spots:
-            self.favorites_spots.remove(spot_id)
+    def remove_spot_from_favorites(self, spot: Spot):
+        if self._is_favorite_spot(spot=spot):
+            self.favorites_spots.remove(spot)
         return self
+    
+    def _is_favorite_spot(self, spot: Spot):
+        return spot in self.favorites_spots
     
     
 class UserCreate(BaseModel):
@@ -31,4 +37,4 @@ class UserUpdate(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
     email: EmailStr | None = None
-    favorites_spots: set[int] = set()
+    favorites_spots: list[Spot] = []

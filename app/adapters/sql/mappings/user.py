@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Index, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from app.adapters.sql import Base
-# from app.adapters.sql.mappings.spot import SpotModel
 
 
 class UserFavoritesSpots(Base):
