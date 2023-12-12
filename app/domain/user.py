@@ -13,7 +13,6 @@ class User(BaseModel):
     favorites_spots: list[Spot] = []
     
     def add_spot_to_favorites(self, spot: Spot):
-        self.favorites_spots = self.favorites_spots or list()
         if not self._is_favorite_spot(spot=spot):
             self.favorites_spots.append(spot)
         return self
@@ -25,6 +24,13 @@ class User(BaseModel):
     
     def _is_favorite_spot(self, spot: Spot):
         return spot in self.favorites_spots
+    
+    def update(self, **kwargs):
+        if "id" in kwargs:
+            raise Exception("You cannot update primary key")
+        for field, value in kwargs.items():
+            setattr(self, field, value)
+        return self
     
     
 class UserCreate(BaseModel):

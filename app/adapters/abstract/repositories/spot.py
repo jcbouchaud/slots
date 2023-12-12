@@ -1,5 +1,5 @@
 import abc
-from app.domain.spot import Spot, SpotCreate, SpotUpdate
+from app.domain.spot import Spot, SpotCreate
 
 
 class AbstractSpotRepository(abc.ABC):
@@ -8,13 +8,13 @@ class AbstractSpotRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get(self, id: int) -> Spot:
+    def get_by_id(self, id: int) -> Spot:
         raise NotImplementedError
     
     @abc.abstractmethod
     def list(self) -> list[Spot]:
         raise NotImplementedError
-
+    
     @abc.abstractmethod
-    def update(self, id: int, spot_update: SpotUpdate) -> Spot:
+    def save(self, spot: Spot) -> Spot:
         raise NotImplementedError

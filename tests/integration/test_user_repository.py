@@ -15,19 +15,19 @@ def test_add_user(sqlite_session_factory):
     assert user.email == user_create.email
 
 
-def test_update_user(sqlite_session_factory):
+def test_save_user(sqlite_session_factory):
     session = sqlite_session_factory()
     repo = SqlAlchemyUserRepository(session)
 
     user_create = UserCreate(first_name="John", last_name="Doe", email="john@example.com")
     user = repo.add(user_create=user_create)
     
-    user_update = UserUpdate(first_name="updated_first_name", last_name="updated_last_name", email="updated_email@example.com")
-    updated_user = repo.update(id=user.id, user_update=user_update)
-    
-    assert updated_user.first_name == user_update.first_name
-    assert updated_user.last_name == user_update.last_name
-    assert updated_user.email == user_update.email
+    user_update = user.update(first_name="updated_first_name", last_name="updated_last_name", email="updated_email@example.com")
+    updated_user = repo.save(user=user_update)
+
+    assert updated_user.first_name == updated_user.first_name
+    assert updated_user.last_name == updated_user.last_name
+    assert updated_user.email == updated_user.email
     
     
 def test_get_by_id(sqlite_session_factory):

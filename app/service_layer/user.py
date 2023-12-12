@@ -1,32 +1,20 @@
 from app.adapters.abstract.unit_of_work import AbstractUnitOfWork
-from app.domain.spot import Spot
-from app.domain.user import User, UserUpdate
+from app.domain.user import User
 
 
-SpotDoesNotExist = Exception("Spot does not exist.")
-
-
-def add_spot_to_favorites(user_id: int, spot: Spot, unit_of_work: AbstractUnitOfWork) -> User:
-    user = unit_of_work.users.get(id=user_id)
-    unit_of_work.spots.get(id=spot.id)
-    
-    if not spot:
-        raise SpotDoesNotExist
+def add_spot_to_favorites(user_id: int, spot_id: int, unit_of_work: AbstractUnitOfWork) -> User:
+    user = unit_of_work.users.get_by_id(id=user_id)
+    spot = unit_of_work.spots.get_by_id(id=spot_id)
     
     user.add_spot_to_favorites(spot=spot)
-    unit_of_work.users.update(id=user.id, user_update=UserUpdate(favorites_spots=user.favorites_spots))
     
-    return user
-    
+    return unit_of_work.users.save(user=user)
+        
 
-def remove_spot_from_favorites(user_id: int, spot: Spot, unit_of_work: AbstractUnitOfWork) -> User:
-    user = unit_of_work.users.get(id=user_id)
-    unit_of_work.spots.get(id=spot.id)
-    
-    if not spot:
-        raise SpotDoesNotExist
-    
+def remove_spot_from_favorites(user_id: int, spot_id: int, unit_of_work: AbstractUnitOfWork) -> User:
+    user = unit_of_work.users.get_by_id(id=user_id)
+    spot = unit_of_work.spots.get_by_id(id=spot_id)
+
     user.remove_spot_from_favorites(spot=spot)
-    unit_of_work.users.update(id=user.id, user_update=UserUpdate(favorites_spots=user.favorites_spots))
     
-    return user
+    return unit_of_work.users.save(user=user)

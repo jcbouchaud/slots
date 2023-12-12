@@ -1,6 +1,6 @@
 from app.adapters.abstract.repositories.user import AbstractUserRepository
-from app.adapters.sql.mappings import UserModel
-from app.domain.user import User, UserCreate, UserUpdate
+from app.adapters.sql.mappings import UserModel, SpotModel
+from app.domain.user import User, UserCreate
 
 
 class SqlAlchemyUserRepository(AbstractUserRepository):
@@ -16,21 +16,20 @@ class SqlAlchemyUserRepository(AbstractUserRepository):
         self.session.flush()
         return self._validate(user)
 
-    def get(self, id: int) -> User:
+    def get_by_id(self, id: int) -> User:
         user = self.session.query(UserModel).filter_by(id=id).one()
         return self._validate(user)
     
     def list(self) -> list[User]:
         return [self._validate(user) for user in self.session.query(UserModel).all()]
+    
+    def save(self, user: User) -> User:
+        user_to_update = self.session.query(UserModel).filter_by(id=user.id).one()
 
-    def update(self, id: int, user_update: UserUpdate) -> User:
-        user = self.session.query(UserModel).filter_by(id=id).one()
-        
-        update_data = user_update.model_dump(exclude_unset=True)
-        
-        for key, value in update_data.items():
-            setattr(user, key, value)
-
-        self.session.add(user)
+        for field, value in user.model_dump().items():
+            if field == "favorites_spots":
+                value = [self.session.query(SpotModel).filter_by(id=spot["id"]).one() for spot in value]
+            setattr(user_to_update, field, value)
+    
         self.session.flush()
-        return self._validate(user)
+        return self._validate(user_to_update)

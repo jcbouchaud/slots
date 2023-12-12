@@ -29,15 +29,15 @@ def test_add_spot_with_same_lat_lon_raises_error(sqlite_session_factory):
         repo.add(spot_create=other_spot_create)
         
         
-def test_update_spot(sqlite_session_factory):
+def test_save_spot(sqlite_session_factory):
     session = sqlite_session_factory()
     repo = SqlAlchemySpotRepository(session)
 
     spot_create = SpotCreate(name="The spot", lat=0, lon=0)
     spot = repo.add(spot_create=spot_create)
     
-    spot_update = SpotUpdate(name="The updated spot")
-    updated_spot = repo.update(id=spot.id, spot_update=spot_update)
+    spot_update = spot.update(name="The updated spot")
+    updated_spot = repo.save(spot=spot_update)
     
     assert updated_spot.name == spot_update.name
     

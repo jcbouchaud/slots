@@ -11,7 +11,13 @@ class Spot(BaseModel):
     lat: float | int
     lon: float | int
 
-
+    def update(self, **kwargs):
+        if "id" in kwargs:
+            raise Exception("You cannot update primary key")
+        for field, value in kwargs.items():
+            setattr(self, field, value)
+        return self
+    
 class SpotCreate(BaseModel):
     name: str
     description: str | None = None

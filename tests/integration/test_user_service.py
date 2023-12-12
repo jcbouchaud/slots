@@ -24,7 +24,7 @@ def test_user_can_add_spot_to_favorites(uow):
     
     updated_user = add_spot_to_favorites(
         user_id=new_user.id,
-        spot=new_spot,
+        spot_id=new_spot.id,
         unit_of_work=uow
     )
     
@@ -47,13 +47,14 @@ def test_user_can_remove_spot_from_favorites(uow):
     )
     
     new_spot = uow.spots.add(spot_create=new_spot_data)
-    uow.users.update(id=new_user.id, user_update=UserUpdate(favorites_spots=[new_spot]))
+    new_user.update(favorites_spots=[new_spot])
+    user_with_favorite_spot = uow.users.save(user=new_user)
 
     uow.commit()
     
     updated_user = remove_spot_from_favorites(
-        user_id=new_user.id,
-        spot=new_spot,
+        user_id=user_with_favorite_spot.id,
+        spot_id=new_spot.id,
         unit_of_work=uow
     )
     
