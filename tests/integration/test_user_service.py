@@ -47,10 +47,11 @@ def test_user_can_remove_spot_from_favorites(uow):
     )
     
     new_spot = uow.spots.add(spot_create=new_spot_data)
-    new_user.update(favorites_spots=[new_spot])
+    new_user.update(favorites_spots=[new_spot]) 
     user_with_favorite_spot = uow.users.save(user=new_user)
-
     uow.commit()
+
+    assert len(user_with_favorite_spot.favorites_spots) == 1
     
     updated_user = remove_spot_from_favorites(
         user_id=user_with_favorite_spot.id,
