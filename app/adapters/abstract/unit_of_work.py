@@ -3,6 +3,7 @@ import abc
 from app.adapters.abstract.repositories.spot import AbstractSpotRepository
 from app.adapters.abstract.repositories.user import AbstractUserRepository
 
+
 class AbstractUnitOfWork(abc.ABC):
     users: AbstractUserRepository
     spots: AbstractSpotRepository

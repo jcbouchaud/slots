@@ -17,6 +17,7 @@ class Spot(BaseModel):
             setattr(self, field, value)
         return self
     
+    
 class SpotCreate(BaseModel):
     name: str
     description: str | None = None
