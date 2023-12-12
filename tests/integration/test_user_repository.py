@@ -1,5 +1,5 @@
 from app.adapters.sql.repositories.user import SqlAlchemyUserRepository
-from app.domain.user import UserCreate, User, UserUpdate
+from app.domain.user import UserCreate, User
 
 
 def test_add_user(sqlite_session_factory):

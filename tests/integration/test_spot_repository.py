@@ -1,7 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 import pytest
 from app.adapters.sql.repositories.spot import SqlAlchemySpotRepository
-from app.domain.spot import SpotCreate, SpotUpdate, Spot
+from app.domain.spot import SpotCreate, Spot
 
 
 def test_add_spot(sqlite_session_factory):

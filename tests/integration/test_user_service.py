@@ -1,5 +1,5 @@
 from app.domain.spot import SpotCreate
-from app.domain.user import UserCreate, UserUpdate
+from app.domain.user import UserCreate
 from app.service_layer.user import add_spot_to_favorites, remove_spot_from_favorites
 
 
