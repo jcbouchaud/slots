@@ -25,9 +25,9 @@ class User(BaseModel):
         return spot in self.favorites_spots
     
     def update(self, **kwargs):
-        if "id" in kwargs:
-            raise Exception("You cannot update primary key")
         for field, value in kwargs.items():
+            if field not in ["first_name", "last_name", "email"]:
+                raise Exception(f"You are not authorized to update {field}")
             setattr(self, field, value)
         return self
     

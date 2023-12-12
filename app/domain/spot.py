@@ -11,9 +11,9 @@ class Spot(BaseModel):
     lon: float | int
 
     def update(self, **kwargs):
-        if "id" in kwargs:
-            raise Exception("You cannot update primary key")
         for field, value in kwargs.items():
+            if field not in ["name", "description"]:
+                raise Exception(f"You are not authorized to update {field}")
             setattr(self, field, value)
         return self
     
