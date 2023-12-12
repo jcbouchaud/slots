@@ -7,3 +7,8 @@ run-dev:
 
 migrate-db: 
 	alembic revision --autogenerate && alembic upgrade head
+
+.PHONY: test
+
+test:
+	python3 -m pytest

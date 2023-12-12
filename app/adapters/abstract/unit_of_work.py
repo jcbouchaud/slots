@@ -1,11 +1,11 @@
-# pylint: disable=attribute-defined-outside-init
 from __future__ import annotations
 import abc
-
-from app.adapters.sql.repository import AbstractUserRepository
+from app.adapters.abstract.repositories.spot import AbstractSpotRepository
+from app.adapters.abstract.repositories.user import AbstractUserRepository
 
 class AbstractUnitOfWork(abc.ABC):
     users: AbstractUserRepository
+    spots: AbstractSpotRepository
 
     def __enter__(self) -> AbstractUnitOfWork:
         return self
