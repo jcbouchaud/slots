@@ -51,7 +51,7 @@ def test_user_can_remove_spot_from_favorites(uow):
     user_with_favorite_spot = uow.users.save(user=new_user)
     uow.commit()
 
-    assert new_spot.id not in user_with_favorite_spot.favorites_spots
+    assert new_spot in user_with_favorite_spot.favorites_spots
     
     updated_user = remove_spot_from_favorites(
         user_id=user_with_favorite_spot.id,
@@ -59,4 +59,4 @@ def test_user_can_remove_spot_from_favorites(uow):
         unit_of_work=uow
     )
     
-    assert new_spot.id not in updated_user.favorites_spots
+    assert new_spot not in updated_user.favorites_spots
