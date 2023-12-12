@@ -49,7 +49,7 @@ def test_get_by_id(sqlite_session_factory):
     spot_create = SpotCreate(name="The spot", lat=0, lon=0)
     spot = repo.add(spot_create=spot_create)
     
-    assert Spot.model_validate(spot) == Spot(id=spot.id, **spot_create.model_dump())
+    assert spot == Spot(id=spot.id, **spot_create.model_dump())
 
 
 def test_list_users(sqlite_session_factory):
