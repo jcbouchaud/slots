@@ -5,7 +5,7 @@ from app.domain.spot import Spot, SpotCreate, SpotUpdate
 
 router = APIRouter(
     prefix="/spots",
-    tags=["spots"],
+    tags=["Spots"],
 )
 
 @router.post("", response_model=Spot)
@@ -18,6 +18,7 @@ async def update_spot(id:int, spot_update: SpotUpdate, unit_of_work: UnitOfWorkD
     spot = unit_of_work.spots.get_by_id(id=id)
     spot.update(**spot_update.model_dump())
     return unit_of_work.spots.save(spot=spot)
+
 
 @router.get("/{id}", response_model=Spot)
 async def get_spot(id: int, unit_of_work: UnitOfWorkDependency):

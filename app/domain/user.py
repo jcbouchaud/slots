@@ -1,5 +1,4 @@
 from pydantic import BaseModel, ConfigDict, EmailStr
-
 from app.domain.spot import Spot
 
 
