@@ -5,6 +5,7 @@ resource "aws_ecs_cluster" "ecs" {
 resource "aws_ecs_service" "service" {
   name                               = "app_service"
   cluster                            = aws_ecs_cluster.ecs.arn
+  launch_type                        = "FARGATE"
   enable_execute_command             = true
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
@@ -20,8 +21,8 @@ resource "aws_ecs_service" "service" {
 
 resource "aws_ecs_task_definition" "td" {
   container_definitions = jsonencode([{
-    name = "app"
-    image     = "arn:aws:ecr:us-east-1:000000000000:repository/app_repo"
+    name      = "app"
+    image     = var.image
     cpu       = 256
     memory    = 512
     essential = true
@@ -35,6 +36,6 @@ resource "aws_ecs_task_definition" "td" {
   cpu                      = "256"
   memory                   = "512"
   network_mode             = "awsvpc"
-  task_role_arn            = "arn:aws:iam::000000000000:role/ecsTaskExecutionRole"
-  execution_role_arn       = "arn:aws:iam::000000000000:role/ecsTaskExecutionRole"
+  task_role_arn            = "arn:aws:iam::${var.aws_user}:role/ecsTaskRole"
+  execution_role_arn       = "arn:aws:iam::${var.aws_user}:role/ecsTaskRole"
 }

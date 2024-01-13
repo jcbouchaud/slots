@@ -7,21 +7,21 @@ resource "aws_vpc" "vpc" {
 resource "aws_subnet" "sn1" {
   cidr_block              = "10.0.1.0/24"
   vpc_id                  = aws_vpc.vpc.id
-  availability_zone       = "us-east-1a"
+  availability_zone       = "${var.region}a"
   map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "sn2" {
   cidr_block              = "10.0.2.0/24"
   vpc_id                  = aws_vpc.vpc.id
-  availability_zone       = "us-east-1b"
+  availability_zone       = "${var.region}b"
   map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "sn3" {
   cidr_block              = "10.0.3.0/24"
   vpc_id                  = aws_vpc.vpc.id
-  availability_zone       = "us-east-1c"
+  availability_zone       = "${var.region}c"
   map_public_ip_on_launch = true
 }
 
